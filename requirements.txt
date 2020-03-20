@@ -1,3 +1,4 @@
+flask
 pylint
 pytest
 pytest-cov
@@ -6,3 +7,4 @@ requests
 requests-mock
 pycodestyle
 flake8
+flask
