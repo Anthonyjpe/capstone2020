@@ -1,7 +1,7 @@
 import pytest
 import requests_mock
-from c20_server import document_download
-from c20_server import reggov_api_doc_error
+from c20_client import document_download
+from c20_client import reggov_api_doc_error
 
 URL = "https://api.data.gov:443/regulations/v3/document.json?"
 DOC_ID = "EPA-HQ-OAR-2011-0028-0108"

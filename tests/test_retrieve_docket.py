@@ -3,7 +3,7 @@ Test the retrieve_docket.py file
 """
 import requests_mock
 import pytest
-from c20_server.retrieve_docket import (
+from c20_client.retrieve_docket import (
     jformat,
     get_docket,
     get_data_json,
@@ -11,7 +11,7 @@ from c20_server.retrieve_docket import (
     get_job_string,
     get_job_json
 )
-from c20_server import reggov_api_doc_error
+from c20_client import reggov_api_doc_error
 
 NO_ID_URL = "https://api.data.gov:443/regulations/v3/docket.json?&docketId="
 MOCK_URL = "https://api.data.gov:443/regulations/v3/docket.json?api_key="

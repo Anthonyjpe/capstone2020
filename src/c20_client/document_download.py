@@ -1,5 +1,5 @@
 import requests
-from c20_server import reggov_api_doc_error
+from c20_client import reggov_api_doc_error
 
 
 def download_document(api_key, document_id=""):
