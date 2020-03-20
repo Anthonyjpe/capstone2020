@@ -3,6 +3,7 @@ Packages the data and the job of a docket into a single JSON object
 """
 import json
 
+
 def jformat(obj):
     """
     Create formatted string from a JSON object
