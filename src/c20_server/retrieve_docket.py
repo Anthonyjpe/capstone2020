@@ -18,14 +18,9 @@ def get_docket_data(api_key, url):
     """
     Makes call to regulations.gov and retrieves the docket data
     """
-    try:
-        # Put the api key into the url
-        split_url = url.split("?")
-        activated_url = split_url[0] + "?api_key=" + api_key + split_url[1]
-    except Exception:
-        raise IndexError
-
-    response = requests.get(activated_url)
+    # Add api_key to make a valid call to reg.gov
+    active_url = url + "&api_key=" + api_key
+    response = requests.get(active_url)
 
     if response.status_code == 400:
         raise reggov_api_doc_error.IncorrectIDPatternException

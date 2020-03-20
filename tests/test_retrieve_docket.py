@@ -110,17 +110,6 @@ def test_get_job_information():
         assert string_response == jformat(json_response)
 
 
-def test_unsplitable_url():
-    with requests_mock.Mocker() as mock:
-        mock.get(MOCK_URL + API_KEY + "&docketID=" + DOCKET_ID,
-                 json='The test yields a bad id')
-
-        with pytest.raises(IndexError):
-            removed_split_key_url = NO_ID_URL.split("?")
-            get_docket(API_KEY, removed_split_key_url[0] +
-                       removed_split_key_url[1] + DOCKET_ID)
-
-
 def test_bad_url():
     with requests_mock.Mocker() as mock:
         mock.get("https://api.data.gov:443/regulation/v3/" +
