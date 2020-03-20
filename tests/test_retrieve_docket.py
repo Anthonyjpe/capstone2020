@@ -110,7 +110,7 @@ def test_get_job_information():
         assert string_response == jformat(json_response)
 
 
-def test_unspliceable_url():
+def test_unsplitable_url():
     with requests_mock.Mocker() as mock:
         mock.get(MOCK_URL + API_KEY + "&docketID=" + DOCKET_ID,
                  json='The test yields a bad id')
