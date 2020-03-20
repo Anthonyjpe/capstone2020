@@ -14,15 +14,18 @@ def jformat(obj):
     return formatted
 
 
-def get_docket_data(api_key, docket_id):
+def get_docket_data(api_key, url):
     """
     Makes call to regulations.gov and retrieves the docket data
     """
-    response = requests.get("https://api.data.gov:443/" +
-                            "regulations/v3/docket.json?api_key=" +
-                            api_key +
-                            "&docketId=" +
-                            docket_id)
+    try:
+        # Put the api key into the url
+        split_url = url.split("?")
+        activated_url = split_url[0] + "?api_key=" + api_key + split_url[1]
+    except Exception:
+        raise IndexError
+
+    response = requests.get(activated_url)
 
     if response.status_code == 400:
         raise reggov_api_doc_error.IncorrectIDPatternException
@@ -36,41 +39,41 @@ def get_docket_data(api_key, docket_id):
     return response.json()
 
 
-def get_data_string(api_key, docket_id):
+def get_data_string(api_key, url):
     """
     Return the JSON object as a easy to read string
     """
-    return jformat(get_data_json(api_key, docket_id))
+    return jformat(get_data_json(api_key, url))
 
 
-def get_data_json(api_key, docket_id):
+def get_data_json(api_key, url):
     """
     Returns the JSON object under the key job
     """
-    docket_information = get_docket_data(api_key, docket_id)
+    docket_information = get_docket_data(api_key, url)
     return {"data": docket_information}
 
 
-def get_job_string(docket_id):
+def get_job_string(url):
     """
     Returns the current job as a formatted easy to read string
     """
-    return jformat(get_job_json(docket_id))
+    return jformat(get_job_json(url))
 
 
-def get_job_json(docket_id):
+def get_job_json(url):
     """
     Returns the current job as a JSON with the keys type and id
     """
-    return {"job": {"job_type": "docket", "url": docket_id}}
+    return {"job": {"job_type": "docket", "url": url}}
 
 
-def get_docket(api_key, docket_id):
+def get_docket(api_key, url):
     """
     Returns the docket in the format of a JSON file with the current job
     and the data for the current job
     """
-    job = get_job_string(docket_id)
-    data = get_data_string(api_key, docket_id)
+    job = get_job_string(url)
+    data = get_data_string(api_key, url)
     docket = job[:-1] + ',' + data[1:]
     return json.loads(docket)
