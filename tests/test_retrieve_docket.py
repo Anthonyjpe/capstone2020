@@ -3,13 +3,13 @@ Test the retrieve_docket.py file
 """
 import requests_mock
 import pytest
-from c20_client.retrieve_docket import (
+from c20_client.retrieve_docket import get_docket, get_docket_data
+from c20_client.docket_packager import (
     jformat,
-    get_docket,
-    get_data_json,
-    get_data_string,
+    get_job_json,
     get_job_string,
-    get_job_json
+    get_data_json,
+    get_data_string
 )
 from c20_client import reggov_api_doc_error
 
@@ -90,8 +90,9 @@ def test_get_docket_data():
     with requests_mock.Mocker() as mock:
         mock.get(MOCK_URL + API_KEY + "&docketID=" + DOCKET_ID,
                  json={'test': 'The test is successful'})
-        json_response = get_data_json(API_KEY, NO_ID_URL + DOCKET_ID)
-        string_response = get_data_string(API_KEY, NO_ID_URL + DOCKET_ID)
+        data = get_docket_data(API_KEY, NO_ID_URL + DOCKET_ID)
+        json_response = get_data_json(data)
+        string_response = get_data_string(data)
 
         assert json_response == {'data': {'test': 'The test is successful'}}
         assert string_response == jformat(json_response)

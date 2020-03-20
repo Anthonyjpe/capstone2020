@@ -1,17 +1,9 @@
 """
 Contains class used to retreive dockets from regulations.gov
 """
-import json
 import requests
 from c20_client import reggov_api_doc_error
-
-
-def jformat(obj):
-    """
-    Create formatted string from a JSON object
-    """
-    formatted = json.dumps(obj, sort_keys=True, indent=4)
-    return formatted
+from c20_client.docket_packager import get_docket_package
 
 
 def get_docket_data(api_key, url):
@@ -34,41 +26,9 @@ def get_docket_data(api_key, url):
     return response.json()
 
 
-def get_data_string(api_key, url):
-    """
-    Return the JSON object as a easy to read string
-    """
-    return jformat(get_data_json(api_key, url))
-
-
-def get_data_json(api_key, url):
-    """
-    Returns the JSON object under the key job
-    """
-    docket_information = get_docket_data(api_key, url)
-    return {"data": docket_information}
-
-
-def get_job_string(url):
-    """
-    Returns the current job as a formatted easy to read string
-    """
-    return jformat(get_job_json(url))
-
-
-def get_job_json(url):
-    """
-    Returns the current job as a JSON with the keys type and id
-    """
-    return {"job": {"job_type": "docket", "url": url}}
-
-
 def get_docket(api_key, url):
     """
-    Returns the docket in the format of a JSON file with the current job
-    and the data for the current job
+    Returns a package of the docket data and job as a JSON object
     """
-    job = get_job_string(url)
-    data = get_data_string(api_key, url)
-    docket = job[:-1] + ',' + data[1:]
-    return json.loads(docket)
+    data = get_docket_data(api_key, url)
+    return get_docket_package(data, url)
