@@ -6,6 +6,7 @@ from c20_client import reggov_api_doc_error
 
 URL = "https://api.data.gov:443/regulations/v3/documents.json?api_key="
 
+
 def get_response_from_api(api_key, start_date, end_date):
     """
     Get JSON data for documents
