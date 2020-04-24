@@ -175,9 +175,8 @@ def test_do_job_none_job():
         do_job(API_KEY)
         history = mock.request_history
 
-        assert len(history) == 2
+        assert len(history) == 1
         assert 'capstone' in history[0].url
-        assert 'capstone' in history[1].url
 
 
 def test_no_connection_made_to_server():
